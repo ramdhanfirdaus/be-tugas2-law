@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,7 +32,8 @@ public class ChatRestController {
     }
 
     @GetMapping("/private-chat-user/{nama}")
-    public ResponseEntity<Object> getPrivateChatByUser(@PathVariable String nama) throws Exception {
+    @Async
+    public CompletableFuture<ResponseEntity<Object>> getPrivateChatByUser(@PathVariable String nama) {
         long start = System.currentTimeMillis();
 
         CompletableFuture<List<PrivateMessage>> sender = chatService.getPrivateChatBySender(nama);
@@ -39,8 +41,8 @@ public class ChatRestController {
 
         logger.info("Elapsed time: " + (System.currentTimeMillis() - start));
 
-        List<PrivateMessage> response = Stream.concat(sender.get().stream(), receiver.get().stream()).toList();
+        List<PrivateMessage> response = Stream.concat(sender.join().stream(), receiver.join().stream()).toList();
 
-        return ResponseEntity.ok(response);
+        return CompletableFuture.completedFuture(ResponseEntity.ok(response));
     }
 }
