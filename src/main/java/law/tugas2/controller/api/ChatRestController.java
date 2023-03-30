@@ -1,7 +1,7 @@
 package law.tugas2.controller.api;
 
-import law.tugas2.model.MessageDTO;
 import law.tugas2.model.PrivateMessage;
+import law.tugas2.model.dto.RequestMessage;
 import law.tugas2.service.ChatService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @RestController
@@ -23,7 +24,7 @@ public class ChatRestController {
     private static final Logger logger = LoggerFactory.getLogger(ChatRestController.class);
 
     @PostMapping(value = "/chat")
-    public ResponseEntity<Object> sendMessage(@RequestBody MessageDTO message) {
+    public ResponseEntity<Object> sendMessage(@RequestBody RequestMessage message) {
         logger.info("Pesan dari " + message.getSenderName() + " kepada " +
                 message.getReceiverName() + " terkirim");
         chatService.processMessage(message);
@@ -41,7 +42,7 @@ public class ChatRestController {
 
         logger.info("Elapsed time: " + (System.currentTimeMillis() - start));
 
-        List<PrivateMessage> response = Stream.concat(sender.join().stream(), receiver.join().stream()).toList();
+        List<PrivateMessage> response = Stream.concat(sender.join().stream(), receiver.join().stream()).collect(Collectors.toList());
 
         return CompletableFuture.completedFuture(ResponseEntity.ok(response));
     }

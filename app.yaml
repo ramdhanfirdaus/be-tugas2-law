@@ -1,0 +1,9 @@
+runtime: java11
+env: standard
+
+handlers:
+  - url: /.*
+    script: auto
+
+zones:
+  - asia-southeast2

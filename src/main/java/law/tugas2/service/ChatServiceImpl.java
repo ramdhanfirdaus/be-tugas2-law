@@ -1,6 +1,6 @@
 package law.tugas2.service;
 
-import law.tugas2.model.MessageDTO;
+import law.tugas2.model.dto.RequestMessage;
 import law.tugas2.model.PrivateMessage;
 import law.tugas2.repository.PrivateMessageRepository;
 import org.slf4j.Logger;
@@ -26,7 +26,7 @@ public class ChatServiceImpl implements ChatService {
     private static final Logger logger = LoggerFactory.getLogger(ChatServiceImpl.class);
 
     @Override
-    public void processMessage(MessageDTO message) {
+    public void processMessage(RequestMessage message) {
         simpMessagingTemplate.convertAndSendToUser(message.getReceiverName(),"/private",message);
         savePrivateMessage(message);
     }
@@ -45,7 +45,7 @@ public class ChatServiceImpl implements ChatService {
         return CompletableFuture.completedFuture(privateMessageRepository.findAllByReceiverName(name));
     }
 
-    private void savePrivateMessage(MessageDTO message) {
+    private void savePrivateMessage(RequestMessage message) {
         PrivateMessage privateMessage = new PrivateMessage();
         privateMessage.setSenderName(message.getSenderName());
         privateMessage.setReceiverName(message.getReceiverName());

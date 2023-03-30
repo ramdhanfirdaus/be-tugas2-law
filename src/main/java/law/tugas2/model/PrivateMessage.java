@@ -1,13 +1,13 @@
 package law.tugas2.model;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Table(name="private_message")
@@ -23,7 +23,7 @@ public class PrivateMessage {
     private String id;
 
     @NotNull
-    @Column (name = "sender_name", nullable = false)
+    @Column(name = "sender_name", nullable = false)
     private String senderName;
 
     @NotNull

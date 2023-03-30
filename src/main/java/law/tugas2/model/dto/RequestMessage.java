@@ -1,9 +1,10 @@
-package law.tugas2.model;
+package law.tugas2.model.dto;
 
+import law.tugas2.model.Status;
 import lombok.Data;
 
 @Data
-public class MessageDTO {
+public class RequestMessage {
 	private String senderName;
 	private String receiverName;
 	private String message;

@@ -1,6 +1,6 @@
 package law.tugas2.controller;
 
-import law.tugas2.model.MessageDTO;
+import law.tugas2.model.dto.RequestMessage;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -11,7 +11,7 @@ public class ChatController {
 
     @MessageMapping("/message")
     @SendTo("/chatroom/public")
-    public MessageDTO receiveMessage(@Payload MessageDTO message){
+    public RequestMessage receiveMessage(@Payload RequestMessage message){
         return message;
     }
 }
